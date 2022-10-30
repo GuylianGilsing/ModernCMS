@@ -26,6 +26,7 @@ use function ModernCMS\Core\APIs\Logging\log_info_message;
 use function ModernCMS\Core\APIs\UUID\generate_uuid;
 use function ModernCMS\Core\APIs\UUID\generated_uuid_is_valid;
 use function ModernCMS\Core\Helpers\HTTP\http_protocol_and_host_name;
+use function ModernCMS\Module\CoreAuth\APIs\Authentication\BlacklistTokens\token_is_blacklisted;
 use function ModernCMS\Module\CoreAuth\APIs\Users\get_user_by_id;
 
 function _get_jwt_token_builder(): Builder
@@ -221,6 +222,15 @@ function refresh_token_jwt_is_valid(string $jwt): bool
 
     if (!jwt_token_is_valid($token, $validator))
     {
+        log_info_message('Token (refresh) validation failed: token is not valid.', [$jwt]);
+
+        return false;
+    }
+
+    if (token_is_blacklisted($token->claims()->get('jti')))
+    {
+        log_info_message('Token (refresh) validation failed: token is blacklisted.', [$jwt]);
+
         return false;
     }
 

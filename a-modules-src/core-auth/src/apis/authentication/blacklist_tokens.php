@@ -8,6 +8,21 @@ use DateTime;
 
 use function ModernCMS\Core\APIs\Database\get_database_connection_instance;
 
+function token_is_blacklisted(string $tokenId): bool
+{
+    $connection = get_database_connection_instance();
+    $queryBuilder = $connection->createQueryBuilder();
+
+    $column = $queryBuilder->select('token_id')
+                            ->from('blacklisted_auth_tokens')
+                            ->where('token_id = :tokenId')
+                            ->setMaxResults(1)
+                            ->setParameter('tokenId', $tokenId)
+                            ->executeQuery();
+
+    return $column->rowCount() > 0;
+}
+
 /**
  * Blacklists a specific token ID.
  *
