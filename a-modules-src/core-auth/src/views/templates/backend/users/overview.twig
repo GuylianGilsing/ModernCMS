@@ -1,0 +1,57 @@
+{% extends "/backend/layout.twig" %}
+
+{% block main_content %}
+<div class="p-6">
+    <div class="mb-4 flex flex-row justify-between">
+        <div class="flex flex-row items-center">
+            <div class="text-3xl font-semibold">Users</div>
+            <div class="py-2 border-l border-black ml-4 pl-4">
+                <a href="{{ backend_url('/users/new') }}" class="button-secondary py-1 px-2">New user</a>
+            </div>
+        </div>
+        <div></div>
+    </div>
+    <div class="mb-4 border border-collapse bg-white ">
+        <table class="w-[100%] text-left">
+            <thead class="border-b">
+                <th></th>
+                <th class="py-2 px-4">ID</th>
+                <th class="py-2 px-4">Firstname</th>
+                <th class="py-2 px-4">Middle name(s)</th>
+                <th class="py-2 px-4">Lastname</th>
+                <th class="py-2 px-4">Email</th>
+                <th class="py-2 px-4">Actions</th>
+            </thead>
+            <tbody>
+            {% for user in usersPage.items %}
+                <tr class="even:bg-gray-100">
+                    <td class="w-[1.15em] py-2 pl-4">
+                        <div class="input-field input-field--checkbox">
+                            <input type="checkbox" id="field-trash-user-{{ user.id }}" name="bulk_actions[user-{{ user.id }}]" class="input-field__field">
+                            <label for="field-trash-user-{{ user.id }}" class="input-field__label"></label>
+                        </div>
+                    </td>
+                    <td class="py-2 px-4">{{ user.id }}</td>
+                    <td class="py-2 px-4">{{ user.firstname }}</td>
+                    <td class="py-2 px-4">{{ user.middlenames|join(', ') }}</td>
+                    <td class="py-2 px-4">{{ user.lastname }}</td>
+                    <td class="py-2 px-4">{{ user.email }}</td>
+                    <td class="py-2 px-4 flex flex-row items-center gap-4">
+                        <a href="{{ backend_url("/user/#{user.id}/edit") }}">Edit</a>
+                        <form action="{{ backend_url("/user/#{user.id}/delete") }}" method="POST">
+                            {{ csrf_fields() }}
+                            <input type="hidden" name="referer" value="{{ backend_url('/users') }}">
+                            <input type="submit" value="Trash" class="w-[100%] block cursor-pointer text-red-500 text-left">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="flex flex-row justify-between">
+        <div>{{ table_pagination(usersPage) }}</div>
+        <div></div>
+    </div>
+</div>
+{% endblock %}

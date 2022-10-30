@@ -1,0 +1,14 @@
+<div class="dropdown">
+    <div class="dropdown__label">{{ user.firstname }} {{user.middlenames|join(' ')}} {{ user.lastname }}</div>
+    <ul class="dropdown__list">
+        <li class="dropdown__list-item">
+            <a href="/cms">My profile</a>
+        </li>
+        <li class="dropdown__list-item">
+            <form action="{{ site_url('/cms/logout') }}" method="POST">
+                {{ csrf_fields() }}
+                <input type="submit" value="logout" class="w-[100%] py-1 px-4 block cursor-pointer text-left">
+            </form>
+        </li>
+    </ul>
+</div>

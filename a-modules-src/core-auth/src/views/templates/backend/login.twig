@@ -1,0 +1,55 @@
+{% extends "layouts/cms.twig" %}
+
+{% block meta %}
+<title>{{ site_name() }} | Login</title>
+{% endblock %}
+
+{% block body %}
+<main id="main-content">
+    <div class="wrapper min-h-[40vh] p-8 flex justify-center items-center">
+        <div class="img-wrapper max-w-[8em]">
+            <img src="{{ site_url('/assets/core/img/logos/logo-blue.svg') }}" alt="">
+        </div>
+    </div>
+    <div class="wrapper flex flex-grow justify-center items-center bg-gray-100">
+        <div class="container mx-auto p-8">
+            <form action="{{ site_url('/cms/login') }}" method="POST" class="mx-auto sm:w-[36em]">
+                {{ csrf_fields() }}
+                {% if errors.global %}
+                    <div class="mb-4 text-center">
+                        <p class="font-bold text-red-500">{{ errors.global }}</p>
+                    </div>
+                {% endif %}
+                <div class="input-field mb-4">
+                    {% if errors.email %}
+                        <label for="login-email" class="input-field__label input-field__label--error">{{ errors.email }}</label>
+                    {% else %}
+                        <label for="login-email" class="input-field__label">Email</label>
+                    {% endif %}
+                    <input type="email" name="email" value="{{ filledData.email }}" placeholder="example@example.com" id="login-email" class="input-field__field">
+                </div>
+                <div class="input-field mb-4">
+                    {% if errors.password %}
+                        <label for="login-password" class="input-field__label input-field__label--error">{{ errors.password }}</label>
+                    {% else %}
+                        <label for="login-password" class="input-field__label">Password</label>
+                    {% endif %}
+                    <input type="password" name="password" value="{{ filledData.password }}" id="login-password" class="input-field__field">
+                </div>
+                <div class="flex flex-row justify-between items-center mb-2">
+                    <input type="submit" value="Login" class="button-primary">
+                    <a href="{{ site_url('/cms/reset-password') }}" class="underline">forgot password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block javascript_body %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Hello World!!');
+});
+</script>
+{% endblock %}

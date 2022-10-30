@@ -1,0 +1,6 @@
+# Files
+config.php
+
+# Folders
+vendor/
+cms/logs/

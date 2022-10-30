@@ -1,0 +1,29 @@
+{
+    "autoload": {
+        "files": [
+            "./src/apis/authentication/blacklist_tokens.php",
+            "./src/apis/authentication/jwt.php",
+            "./src/apis/authentication.php",
+            "./src/apis/users.php",
+            "./register-module.php"
+        ],
+        "psr-4": {
+            "ModernCMS\\Module\\CoreAuth\\": "./src",
+            "ModernCMS\\Module\\CoreAuth\\Abstractions\\": "./src/abstractions",
+            "ModernCMS\\Module\\CoreAuth\\Abstractions\\Users\\": "./src/abstractions/users",
+            "ModernCMS\\Module\\CoreAuth\\Mappings\\": "./src/mappings",
+            "ModernCMS\\Module\\CoreAuth\\Mappings\\Array\\": "./src/mappings/array",
+            "ModernCMS\\Module\\CoreAuth\\Middleware\\": "./src/middleware",
+            "ModernCMS\\Module\\CoreAuth\\Migrations\\": "./src/migrations",
+            "ModernCMS\\Module\\CoreAuth\\Routes\\": "./src/routes",
+            "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\": "./src/routes/backend",
+            "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Login\\": "./src/routes/backend/login",
+            "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Logout\\": "./src/routes/backend/logout",
+            "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\": "./src/routes/backend/users",
+            "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\Overview\\": "./src/routes/backend/users/overview"
+        }
+    },
+    "require": {
+        "lcobucci/jwt": "^4.0"
+    }
+}

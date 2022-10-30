@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-moderncms_logo);
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        fill: #00a8ff;
+      }
+    </style>
+    <clipPath id="clip-moderncms_logo">
+      <rect width="64" height="64"/>
+    </clipPath>
+  </defs>
+  <g id="moderncms_logo" class="cls-1">
+    <rect class="cls-3" width="64" height="64"/>
+    <path id="Path_1" data-name="Path 1" class="cls-2" d="M34.078,0V-18.422q0-2.6.164-5.719l.07-1.547h-.281q-.75,3.961-1.148,5.484L27.938,0H18.422l-5.18-19.969q-.211-.75-1.1-5.719h-.281q.328,7.875.328,9.844V0H3.3V-33.609H18.469l4.617,18.258a22.537,22.537,0,0,1,.434,2.285q.27,1.723.34,2.66H24q.258-2.133.82-5.039l4.313-18.164h14.93V0Z" transform="translate(8.695 48.609)"/>
+  </g>
+</svg>

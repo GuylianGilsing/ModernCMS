@@ -1,0 +1,18 @@
+<form action="{{ backend_url('/users') }}" method="GET" class="flex flex-row items-center gap-4">
+    {% if page.currentPage - 1 <= 0 %}
+        <a href="{{ backend_url('/users') }}?s=&page=1&amount={{ page.itemsPerPage }}"><</a>
+    {% else %}
+        <a href="{{ backend_url('/users') }}?s=&page={{ page.currentPage - 1 }}&amount={{ page.itemsPerPage }}"><</a>
+    {% endif %}
+    <input type="hidden" name="s">
+    Page
+    <div class="input-field inline-block">
+        <input type="text" name="page" class="input-field__field w-[2em] p-0 text-center" value="{{ page.currentPage }}">
+    </div>
+    of {{ page.totalPages }}
+    {% if page.currentPage + 1 >= page.totalPages %}
+        <a href="{{ backend_url('/users') }}?s=&page={{ page.totalPages }}&amount={{ page.itemsPerPage }}">></a>
+    {% else %}
+        <a href="{{ backend_url('/users') }}?s=&page={{ page.currentPage + 1 }}&amount={{ page.itemsPerPage }}">></a>
+    {% endif %}
+</form>

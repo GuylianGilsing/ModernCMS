@@ -1,0 +1,29 @@
+{% for section in items %}
+    {% if section.groups|length > 0 %}
+        <div class="px-6 opacity-60 text-lg font-bold">{{ section.name }}</div>
+        <ul class="mb-4">
+            {% for group in section.groups %}
+            {# <li class="bg-gray-700"> #}
+            {#     ^ Active class ^ #}
+                <li>
+                    {% if group.url|length > 0 %}
+                        <a href="{{ backend_url(group.url) }}" class="py-1 px-6 block">{{ group.name }}</a>
+                    {% else %}
+                        <div class="py-1 px-6 block">{{ group.name }}</div>
+                    {% endif %}
+                    {% if group.urls|length > 0 %}
+                        <ul>
+                            {% for url in group.urls %}
+                                <li>
+                                    <a href="{{ backend_url(url.url) }}" class="py-1 px-10 block">{{ url.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endfor %}
+
+

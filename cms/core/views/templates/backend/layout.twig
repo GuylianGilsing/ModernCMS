@@ -1,0 +1,33 @@
+{% extends "/layouts/cms.twig" %}
+
+{% block body %}
+<header id="main-header" class="z-50">
+    <div class="wrapper w-screen px-6 bg-white">
+        <div class="flex flex-row justify-between">
+            <div class="flex flex-row items-center gap-4">
+                <a href="{{ backend_url() }}" class="image-wrapper max-w-[3em] py-4">
+                    <img src="{{ site_url('/assets/core/img/logos/logo-blue.svg') }}" alt="">
+                </a>
+                <div class="text-xl font-bold">{{ site_name() }}</div>
+                <a href="{{ site_url('/') }}" class="text-base">View website</a>
+            </div>
+            <div class="relative flex flex-row items-center">
+                {{ mcms_ui_cms_main_header_right_side_content() }}
+            </div>
+        </div>
+    </div>
+</header>
+<main id="main-content" class=" flex flex-row flex-nowrap flex-grow overflow-hidden bg-gray-100 z-0">
+    <aside id="main-sidebar" class="w-fit text-white">
+        <div class="wrapper w-[18rem] h-[100%] py-6 flex-grow-0 bg-gray-800">
+            {{ mcms_ui_main_sidenav_items() }}
+        </div>
+    </aside>
+    <div class="wrapper h-[100%] relative flex-grow overflow-hidden overflow-y-scroll">
+        {% block main_content %}{% endblock %}
+    </div>
+    <div class="image-wrapper w-[2.5em] right-0 bottom-0 fixed -z-[1] -translate-x-6 -translate-y-2">
+        <img src="{{ site_url('/assets/core/img/logos/logo-gray_cutout.svg') }}" alt="">
+    </div>
+</main>
+{% endblock %}

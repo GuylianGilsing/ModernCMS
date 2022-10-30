@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body, html{
+        min-height: 100vh;
+        @apply flex;
+        @apply flex-col;
+    }
+
+    body{
+        height: 100vh;
+    }
+}
+
+#main-content:not(.flex-row){
+    @apply flex;
+    @apply flex-grow;
+    @apply flex-col;
+}
+
+@layer components {
+    .img-wrapper{
+        @apply inline-block;
+    }
+
+    .img-wrapper,
+    .img-wrapper img{
+        width: 100%;
+        height: 100%;
+    }
+
+    .img-wrapper img{
+        @apply block;
+    }
+
+    .input-field{
+        @apply block;
+    }
+
+    .input-field__label{
+        @apply mb-1;
+        @apply block;
+    }
+
+    .input-field__label--error{
+        @apply text-red-500;
+        @apply font-bold;
+    }
+
+    .input-field__field{
+        width: 100%;
+        @apply py-2;
+        @apply px-4;
+        @apply block;
+        @apply border;
+        @apply border-gray-300;
+    }
+
+    .input-field--checkbox{
+        line-height: 1;
+    }
+
+    .input-field--checkbox .input-field__field{
+        display: none
+    }
+
+    .input-field__field::placeholder{
+        @apply text-gray-400;
+    }
+
+    .input-field--checkbox .input-field__label{
+        @apply mb-0;
+        @apply relative;
+        @apply flex;
+        flex-direction: row; /* Using "@apply flex-row" here will add the selector into the :not(.flex-row) selector on the #main-content element  */
+        @apply items-center;
+        @apply cursor-pointer;
+    }
+
+    .input-field--checkbox .input-field__label::after{
+        content: '\2713';
+        top: 0.1em;
+        left: 0.25em;
+        @apply absolute;
+        @apply opacity-0;
+        @apply text-black;
+        font-size: 0.9em;
+    }
+
+    .input-field--checkbox .input-field__label::before{
+        content: '';
+        width: 1.15em;
+        height: 1.15em;
+        @apply inline-block;
+        @apply border;
+        @apply border-gray-300;
+        @apply bg-white;
+    }
+
+    .input-field__label-text{
+        @apply ml-4;
+    }
+
+    .input-field--checkbox .input-field__field:checked + .input-field__label::after{
+        opacity: 1;
+        @apply opacity-100;
+    }
+
+    .button-primary,
+    .button-secondary{
+        @apply py-2;
+        @apply px-4;
+        @apply inline-block;
+        @apply cursor-pointer;
+        @apply text-white;
+        @apply text-center;
+    }
+
+    .button-primary{
+        @apply bg-primary;
+        @apply transition-colors;
+        @apply hover:bg-primary-hover;
+    }
+
+    .button-secondary{
+        @apply text-black;
+        border: solid 0.1em;
+        @apply border-black;
+        @apply transition-opacity;
+        @apply hover:opacity-30;
+    }
+}
+
+.dropdown{
+    @apply relative;
+    overflow: visible;
+}
+
+.dropdown:not(:hover) > .dropdown__list{
+    opacity: 0;
+    pointer-events: none
+}
+
+.dropdown__label{
+    @apply px-4;
+    @apply relative;
+    @apply flex;
+    flex-direction: row; /* Using "@apply flex-row" here will add the selector into the :not(.flex-row) selector on the #main-content element  */
+    @apply items-center;
+}
+
+.dropdown__label::after{
+    content: '';
+    width: 0.5em;
+    height: 0.5em;
+    @apply ml-3;
+    @apply block;
+    border: none;
+    border-top: solid;
+    border-left: solid;
+    border-width: 0.15em;
+    @apply border-black;
+    transform: translateY(-0.1em) rotate(-135deg);
+}
+
+.dropdown__list{
+    width: 100%;
+    @apply py-2;
+    top: 100%;
+    left: 0;
+    @apply absolute;
+    @apply bg-white;
+}
+
+.dropdown__list-item a{
+    @apply py-1;
+    @apply px-4;
+    @apply block;
+}
