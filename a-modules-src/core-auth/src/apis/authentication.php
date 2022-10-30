@@ -12,6 +12,7 @@ use function ModernCMS\Core\APIs\Cookie\get_cookie_data;
 use function ModernCMS\Core\APIs\Cookie\set_cookie;
 use function ModernCMS\Module\CoreAuth\APIs\Authentication\BlacklistTokens\blacklist_token;
 use function ModernCMS\Module\CoreAuth\APIs\Authentication\BlacklistTokens\delete_expired_blacklisted_token_ids;
+use function ModernCMS\Module\CoreAuth\APIs\Authentication\BlacklistTokens\token_is_blacklisted;
 use function ModernCMS\Module\CoreAuth\APIs\Authentication\JWT\authentication_token_jwt_is_valid;
 use function ModernCMS\Module\CoreAuth\APIs\Authentication\JWT\issue_authentication_token;
 use function ModernCMS\Module\CoreAuth\APIs\Authentication\JWT\issue_refresh_token;
@@ -155,7 +156,12 @@ function blacklist_auth_cookie_tokens(): void
 
         if ($token !== null && $token->claims()->has('jti'))
         {
-            blacklist_token($token->claims()->get('jti'), 'authentication');
+            $tokenId = $token->claims()->get('jti');
+
+            if (!token_is_blacklisted($tokenId))
+            {
+                blacklist_token($tokenId, 'authentication');
+            }
         }
     }
 
@@ -166,7 +172,12 @@ function blacklist_auth_cookie_tokens(): void
 
         if ($token !== null && $token->claims()->has('jti'))
         {
-            blacklist_token($token->claims()->get('jti'), 'refresh');
+            $tokenId = $token->claims()->get('jti');
+
+            if (!token_is_blacklisted($tokenId))
+            {
+                blacklist_token($tokenId, 'refresh');
+            }
         }
     }
 }
