@@ -56,3 +56,43 @@ function array_validator(array $validators, array $errorMessages = []): Validato
 
     return $builder->build();
 }
+
+/**
+ * @param array<string, string|array<string, mixed>> $errorMessages An infinite associative array
+ * where each field has a key => string pair that displays a custom error message.
+ * ```
+ * [
+ *     'field1' => [
+ *         'required' => "Field1 is required",
+ *         'notEmpty' => "Field1 must be filled in",
+ *         'minLength' => "Field1 must be at least 6 characters long",
+ *         'maxLength' => "Field1 cannot be longer than 32 characters",
+ *     ],
+ *     'nestedField' => [
+ *         'field1' => [
+ *             'isNumber' => "Field1 must be a number",
+ *             'between' => "Field1 must be between 4 and 21",
+ *         ],
+ *     ],
+ * ]
+ * ```
+ *
+ * @return array<string, string>
+ */
+function convert_error_messages_into_frontend_format(array $errorMessages): array
+{
+    $formattedErrorMessages = [];
+
+    foreach ($errorMessages as $fieldKey => $errors)
+    {
+        if (!is_array($errors) || count($errors) === 0)
+        {
+            continue;
+        }
+
+        // Select the first result in the error values
+        $formattedErrorMessages[$fieldKey] = array_values($errors)[0];
+    }
+
+    return $formattedErrorMessages;
+}

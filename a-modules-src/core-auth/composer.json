@@ -20,6 +20,7 @@
             "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Login\\": "./src/routes/backend/login",
             "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Logout\\": "./src/routes/backend/logout",
             "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\": "./src/routes/backend/users",
+            "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\Manage\\": "./src/routes/backend/users/manage",
             "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\Overview\\": "./src/routes/backend/users/overview"
         }
     },

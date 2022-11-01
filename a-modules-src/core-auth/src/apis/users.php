@@ -169,3 +169,43 @@ function _query_users_with_range(int $itemAmount, int $pageNumber): array
 
     return $users;
 }
+
+/**
+ * Attempts to create a new user.
+ *
+ * @param User $user the user abstraction that you want to create.
+ *
+ * @return ?User Returns the user when it could be created, `null` otherwise.
+ */
+function create_user(User $user): ?User
+{
+    $connection = get_database_connection_instance();
+    $queryBuilder = $connection->createQueryBuilder();
+
+    $rowsAffected = $queryBuilder->insert('users')
+                                ->values([
+                                    'firstname' => ':firstname',
+                                    'lastname' => ':lastname',
+                                    'email' => ':email',
+                                    'password' => ':password',
+                                ])
+                                ->setParameter('firstname', $user->getFirstname())
+                                ->setParameter('lastname', $user->getLastname())
+                                ->setParameter('email', $user->getEmail())
+                                ->setParameter('password', $user->getPassword())
+                                ->executeStatement();
+
+    if ($rowsAffected === 0)
+    {
+        return null;
+    }
+
+    $insertedUserId = $connection->lastInsertId();
+
+    if (!is_numeric($insertedUserId))
+    {
+        return null;
+    }
+
+    return get_user_by_id(intval($insertedUserId));
+}

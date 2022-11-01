@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use function ModernCMS\Core\APIs\Passwords\password_matches_hash;
 use function ModernCMS\Core\APIs\Sessions\set_session_data;
 use function ModernCMS\Core\APIs\Validation\array_validator;
+use function ModernCMS\Core\APIs\Validation\convert_error_messages_into_frontend_format;
 use function ModernCMS\Core\Helpers\HTTP\redirect_response;
 use function ModernCMS\Module\CoreAuth\APIs\Authentication\delete_expired_blacklisted_tokens;
 use function ModernCMS\Module\CoreAuth\APIs\Authentication\login_user;
@@ -30,7 +31,7 @@ final class POST
         {
             $errorMessages = $validator->getErrorMessages();
 
-            set_session_data('login_errors', $this->convertErrorMessagesIntoFrontendFormat($errorMessages));
+            set_session_data('login_errors', convert_error_messages_into_frontend_format($errorMessages));
             set_session_data('login_filled_data', $formFields);
 
             return redirect_response('/cms');
@@ -78,23 +79,5 @@ final class POST
         ];
 
         return array_validator($validators, $errorMessages);
-    }
-
-    private function convertErrorMessagesIntoFrontendFormat(array $errorMessages): array
-    {
-        $formattedErrorMessages = [];
-
-        foreach ($errorMessages as $fieldKey => $errors)
-        {
-            if (!is_array($errors) || count($errors) === 0)
-            {
-                continue;
-            }
-
-            // Select the first result in the error values
-            $formattedErrorMessages[$fieldKey] = array_values($errors)[0];
-        }
-
-        return $formattedErrorMessages;
     }
 }

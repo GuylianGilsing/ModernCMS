@@ -1,0 +1,62 @@
+{% extends "/backend/layout.twig" %}
+
+{% block main_content %}
+<div class="p-6">
+    {% if user.id > 0 %}
+        <form action="{{ backend_url('/users/update') }}" method="POST">
+            <input type="hidden" name="id" value="{{ user.id }}">
+    {% else %}
+        <form action="{{ backend_url('/users/create') }}" method="POST">
+    {% endif %}
+        {{ csrf_fields() }}
+        {% if validation_errors.global %}
+            <div class="mb-4 text-center">
+                <p class="font-bold text-red-500">{{ validation_errors.global }}</p>
+            </div>
+        {% endif %}
+        <div class="w-full mb-4 flex flex-row justify-evenly items-center gap-8">
+            <div class="input-field">
+                {% if validation_errors.firstname %}
+                    <label for="manage-user-firstname" class="input-field__label input-field__label--error">{{ validation_errors.firstname }}</label>
+                {% else %}
+                    <label for="manage-user-firstname" class="input-field__label">Firstname</label>
+                {% endif %}
+                <input type="text" name="firstname" value="{{ user.firstname }}" id="manage-user-firstname" class="input-field__field">
+            </div>
+            <div class="input-field">
+                {% if validation_errors.lastname %}
+                    <label for="manage-user-lastname" class="input-field__label input-field__label--error">{{ validation_errors.lastname }}</label>
+                {% else %}
+                    <label for="manage-user-lastname" class="input-field__label">Lastname</label>
+                {% endif %}
+                <input type="text" name="lastname" value="{{ user.lastname }}" id="manage-user-lastname" class="input-field__field">
+            </div>
+        </div>
+        <div class="w-full mb-6 flex flex-row justify-evenly items-center gap-8">
+            <div class="input-field">
+                {% if validation_errors.email %}
+                    <label for="manage-user-email" class="input-field__label input-field__label--error">{{ validation_errors.email }}</label>
+                {% else %}
+                    <label for="manage-user-email" class="input-field__label">Email address</label>
+                {% endif %}
+                <input type="email" name="email" value="{{ user.email }}" id="manage-user-email" class="input-field__field">
+            </div>
+            <div class="input-field">
+                {% if validation_errors.password %}
+                    <label for="manage-user-password" class="input-field__label input-field__label--error">{{ validation_errors.password }}</label>
+                {% else %}
+                    <label for="manage-user-password" class="input-field__label">Update password</label>
+                {% endif %}
+                <input type="password" name="password" id="manage-user-password" class="input-field__field">
+            </div>
+        </div>
+        <div class="w-full">
+            {% if user.id > 0 %}
+                <input type="submit" name="submit" value="Update user" class="button-primary">
+            {% else %}
+                <input type="submit" name="submit" value="Create user" class="button-primary">
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}
