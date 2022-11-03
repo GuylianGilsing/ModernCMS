@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ModernCMS\Module\CoreAuth\APIs\Users;
 
 use Doctrine\DBAL\ParameterType;
+use ErrorException;
 use ModernCMS\Core\Abstractions\Pagination\PaginatedResult;
 use ModernCMS\Module\CoreAuth\Abstractions\Users\User;
 
@@ -208,4 +209,44 @@ function create_user(User $user): ?User
     }
 
     return get_user_by_id(intval($insertedUserId));
+}
+
+/**
+ * Attempts to update an existing user.
+ *
+ * @param User $user the user abstraction that you want to update.
+ *
+ * @throws ErrorException when a user abstraction is given that does not exist.
+ *
+ * @return bool Returns true if the update succeeded, false otherwise.
+ */
+function update_user(User $user): bool
+{
+    if (get_user_by_id($user->getId()) === null)
+    {
+        throw new ErrorException("User with ID \"{$user->getId()}\" does not exist.");
+    }
+
+    $connection = get_database_connection_instance();
+    $queryBuilder = $connection->createQueryBuilder();
+
+    $rowsAffected = $queryBuilder->update('users', 'u')
+                                ->set('u.firstname', ':firstname')
+                                ->set('u.lastname', ':lastname')
+                                ->set('u.email', ':email')
+                                ->set('u.password', ':password')
+                                ->where('u.id = :id')
+                                ->setParameter('id', $user->getId())
+                                ->setParameter('firstname', $user->getFirstname())
+                                ->setParameter('lastname', $user->getLastname())
+                                ->setParameter('email', $user->getEmail())
+                                ->setParameter('password', $user->getPassword())
+                                ->executeStatement();
+
+    if ($rowsAffected === 0)
+    {
+        return false;
+    }
+
+    return true;
 }

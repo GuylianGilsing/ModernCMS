@@ -15,26 +15,26 @@
         <div class="container mx-auto p-8">
             <form action="{{ site_url('/cms/login') }}" method="POST" class="mx-auto sm:w-[36em]">
                 {{ csrf_fields() }}
-                {% if errors.global %}
+                {% if validation_errors.global %}
                     <div class="mb-4 text-center">
-                        <p class="font-bold text-red-500">{{ errors.global }}</p>
+                        <p class="font-bold text-red-500">{{ validation_errors.global }}</p>
                     </div>
                 {% endif %}
                 <div class="input-field mb-4">
-                    {% if errors.email %}
-                        <label for="login-email" class="input-field__label input-field__label--error">{{ errors.email }}</label>
+                    {% if validation_errors.email %}
+                        <label for="login-email" class="input-field__label input-field__label--error">{{ validation_errors.email }}</label>
                     {% else %}
                         <label for="login-email" class="input-field__label">Email</label>
                     {% endif %}
-                    <input type="email" name="email" value="{{ filledData.email }}" placeholder="example@example.com" id="login-email" class="input-field__field">
+                    <input type="email" name="email" value="{{ filled_data.email }}" placeholder="example@example.com" id="login-email" class="input-field__field">
                 </div>
                 <div class="input-field mb-4">
-                    {% if errors.password %}
-                        <label for="login-password" class="input-field__label input-field__label--error">{{ errors.password }}</label>
+                    {% if validation_errors.password %}
+                        <label for="login-password" class="input-field__label input-field__label--error">{{ validation_errors.password }}</label>
                     {% else %}
                         <label for="login-password" class="input-field__label">Password</label>
                     {% endif %}
-                    <input type="password" name="password" value="{{ filledData.password }}" id="login-password" class="input-field__field">
+                    <input type="password" name="password" value="{{ filled_data.password }}" id="login-password" class="input-field__field">
                 </div>
                 <div class="flex flex-row justify-between items-center mb-2">
                     <input type="submit" value="Login" class="button-primary">
@@ -44,12 +44,4 @@
         </div>
     </div>
 </main>
-{% endblock %}
-
-{% block javascript_body %}
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('Hello World!!');
-});
-</script>
 {% endblock %}

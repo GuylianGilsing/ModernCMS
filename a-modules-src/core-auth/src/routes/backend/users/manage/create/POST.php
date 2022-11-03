@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ModernCMS\Module\CoreAuth\Routes\Backend\Users\Manage;
+namespace ModernCMS\Module\CoreAuth\Routes\Backend\Users\Manage\Create;
 
 use ModernCMS\Module\CoreAuth\Abstractions\Users\User;
 use PHPValidation\ValidatorInterface;
@@ -10,9 +10,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function ModernCMS\Core\APIs\Passwords\hash_password;
-use function ModernCMS\Core\APIs\Sessions\set_session_data;
 use function ModernCMS\Core\APIs\Validation\array_validator;
 use function ModernCMS\Core\APIs\Validation\convert_error_messages_into_frontend_format;
+use function ModernCMS\Core\Helpers\HTTP\form_error_response;
 use function ModernCMS\Core\Helpers\HTTP\redirect_response;
 use function ModernCMS\Module\CoreAuth\APIs\Users\create_user;
 use function PHPValidation\Functions\email;
@@ -32,12 +32,9 @@ final class POST
 
         if (!$validator->isValid($formFields))
         {
-            $errorMessages = $validator->getErrorMessages();
+            $errorMessages = convert_error_messages_into_frontend_format($validator->getErrorMessages());
 
-            set_session_data('validation_errors', convert_error_messages_into_frontend_format($errorMessages));
-            set_session_data('filled_data', $formFields);
-
-            return redirect_response('/cms/users/new');
+            return form_error_response('/cms/users/new', $errorMessages, $formFields);
         }
 
         $user = new User(
@@ -53,10 +50,7 @@ final class POST
 
         if ($user === null)
         {
-            set_session_data('validation_errors', ['global' => 'User could not be created']);
-            set_session_data('filled_data', $formFields);
-
-            return redirect_response('/cms/users/new');
+            return form_error_response('/cms/users/new', ['global' => 'User could not be created'], $formFields);
         }
 
         return redirect_response("/cms/users/{$user->getId()}");

@@ -21,6 +21,8 @@
             "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Logout\\": "./src/routes/backend/logout",
             "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\": "./src/routes/backend/users",
             "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\Manage\\": "./src/routes/backend/users/manage",
+            "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\Manage\\Create\\": "./src/routes/backend/users/manage/create",
+            "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\Manage\\Update\\": "./src/routes/backend/users/manage/update",
             "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\Overview\\": "./src/routes/backend/users/overview"
         }
     },

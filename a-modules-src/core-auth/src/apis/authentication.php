@@ -20,15 +20,6 @@ use function ModernCMS\Module\CoreAuth\APIs\Authentication\JWT\parse_jwt_token_s
 use function ModernCMS\Module\CoreAuth\APIs\Authentication\JWT\refresh_token_jwt_is_valid;
 use function ModernCMS\Module\CoreAuth\APIs\Users\get_user_by_id;
 
-// TODO:: Delete auth cookies
-// TODO:: Blacklist authentication and refresh token
-// TODO:: Refresh authentication token
-// TODO:: Check if user is logged in
-// TODO:: Validate refresh token
-// TODO:: Generate new authentication token
-// TODO:: Update registered authentication token with the refreshed one
-// TODO:: Login user
-
 /**
  * Attempts to login a user.
  *

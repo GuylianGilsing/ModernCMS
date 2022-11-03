@@ -9,9 +9,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function ModernCMS\Core\APIs\Passwords\password_matches_hash;
-use function ModernCMS\Core\APIs\Sessions\set_session_data;
 use function ModernCMS\Core\APIs\Validation\array_validator;
 use function ModernCMS\Core\APIs\Validation\convert_error_messages_into_frontend_format;
+use function ModernCMS\Core\Helpers\HTTP\form_error_response;
 use function ModernCMS\Core\Helpers\HTTP\redirect_response;
 use function ModernCMS\Module\CoreAuth\APIs\Authentication\delete_expired_blacklisted_tokens;
 use function ModernCMS\Module\CoreAuth\APIs\Authentication\login_user;
@@ -29,28 +29,21 @@ final class POST
 
         if (!$validator->isValid($formFields))
         {
-            $errorMessages = $validator->getErrorMessages();
+            $errorMessages = convert_error_messages_into_frontend_format($validator->getErrorMessages());
 
-            set_session_data('login_errors', convert_error_messages_into_frontend_format($errorMessages));
-            set_session_data('login_filled_data', $formFields);
-
-            return redirect_response('/cms');
+            return form_error_response('/cms', $errorMessages, $formFields);
         }
 
         $user = get_user_by_email($formFields['email']);
 
         if ($user === null)
         {
-            set_session_data('login_errors', ['global' => 'Email and password combination not found']);
-
-            return redirect_response('/cms');
+            return form_error_response('/cms', ['global' => 'Email and password combination not found']);
         }
 
         if (!password_matches_hash($formFields['password'], $user->getPassword()))
         {
-            set_session_data('login_errors', ['global' => 'Email and password combination not found']);
-
-            return redirect_response('/cms');
+            return form_error_response('/cms', ['global' => 'Email and password combination not found']);
         }
 
         delete_expired_blacklisted_tokens();

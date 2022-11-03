@@ -17,6 +17,7 @@ use function ModernCMS\Core\APIs\Sessions\get_session_data;
 use function ModernCMS\Core\APIs\Sessions\session_exists;
 use function ModernCMS\Core\APIs\Sessions\set_session_data;
 use function ModernCMS\Core\APIs\Views\view_response;
+use function ModernCMS\Core\Helpers\HTTP\form_error_response;
 use function ModernCMS\Module\CoreAuth\APIs\Authentication\authentication_token_is_valid;
 use function ModernCMS\Module\CoreAuth\APIs\Authentication\blacklist_auth_cookie_tokens;
 use function ModernCMS\Module\CoreAuth\APIs\Authentication\delete_auth_cookies_if_exists;
@@ -42,9 +43,7 @@ final class IsAuthenticatedMiddleware
 
                 if (!refresh_authentication_token($refreshToken))
                 {
-                    set_session_data('login_errors', ['global' => 'Failed to refresh login session']);
-
-                    return $this->serveLoginPage();
+                    return form_error_response('/cms', ['global' => 'Failed to refresh login session']);
                 }
 
                 $response = new Response(StatusCodeInterface::STATUS_TEMPORARY_REDIRECT);
@@ -103,8 +102,8 @@ final class IsAuthenticatedMiddleware
         $response = view_response('/backend/login.twig', $this->getLoginPageTemplateData());
 
         // Delete any flash messages
-        delete_session_if_exists('login_errors');
-        delete_session_if_exists('login_filled_data');
+        delete_session_if_exists('validation_errors');
+        delete_session_if_exists('filled_data');
 
         return $response;
     }
@@ -113,14 +112,14 @@ final class IsAuthenticatedMiddleware
     {
         $templateData = [];
 
-        if (session_exists('login_errors'))
+        if (session_exists('validation_errors'))
         {
-            $templateData['errors'] = get_session_data('login_errors');
+            $templateData['validation_errors'] = get_session_data('validation_errors');
         }
 
-        if (session_exists('login_filled_data'))
+        if (session_exists('filled_data'))
         {
-            $templateData['filledData'] = get_session_data('login_filled_data');
+            $templateData['filled_data'] = get_session_data('filled_data');
         }
 
         return $templateData;

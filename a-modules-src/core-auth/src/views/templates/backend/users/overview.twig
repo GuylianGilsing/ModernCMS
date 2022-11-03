@@ -37,7 +37,7 @@
                     <td class="py-2 px-4">{{ user.lastname }}</td>
                     <td class="py-2 px-4">{{ user.email }}</td>
                     <td class="py-2 px-4 flex flex-row items-center gap-4">
-                        <a href="{{ backend_url("/user/#{user.id}/edit") }}">Edit</a>
+                        <a href="{{ backend_url("/users/#{user.id}") }}">Edit</a>
                         <form action="{{ backend_url("/user/#{user.id}/delete") }}" method="POST">
                             {{ csrf_fields() }}
                             <input type="hidden" name="referer" value="{{ backend_url('/users') }}">

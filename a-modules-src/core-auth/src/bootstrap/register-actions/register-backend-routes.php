@@ -16,7 +16,8 @@ register_action_callback('mcms_register_backend_routes', function (RouteCollecto
     $usersOverviewRouteGET = $router->get('/users', \ModernCMS\Module\CoreAuth\Routes\Backend\Users\Overview\GET::class);
 
     $usersManageGET = $router->get('/users/{userId}', \ModernCMS\Module\CoreAuth\Routes\Backend\Users\Manage\GET::class);
-    $usersManagePOST = $router->post('/users/create', \ModernCMS\Module\CoreAuth\Routes\Backend\Users\Manage\POST::class);
+    $usersManageCreatePOST = $router->post('/users/create', \ModernCMS\Module\CoreAuth\Routes\Backend\Users\Manage\Create\POST::class);
+    $usersManageUpdatePOST = $router->post('/users/update', \ModernCMS\Module\CoreAuth\Routes\Backend\Users\Manage\Update\POST::class);
 
     if (DO_CSRF)
     {
@@ -26,6 +27,7 @@ register_action_callback('mcms_register_backend_routes', function (RouteCollecto
         $usersOverviewRouteGET->add('csrf');
 
         $usersManageGET->add('csrf');
-        $usersManagePOST->add('csrf');
+        $usersManageCreatePOST->add('csrf');
+        $usersManageUpdatePOST->add('csrf');
     }
 });

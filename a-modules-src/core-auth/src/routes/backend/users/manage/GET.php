@@ -27,14 +27,19 @@ final class GET
             $filledData = get_session_data('filled_data');
 
             $templateData['validation_errors'] = $validationErrors;
+            $id = 0;
+
+            if (array_key_exists('id', $filledData) && is_numeric($filledData['id']))
+            {
+                $id = intval($filledData['id']);
+            }
 
             $templateData['user'] = new User(
-                0,
+                $id,
                 $filledData['firstname'],
                 [],
                 $filledData['lastname'],
-                $filledData['email'],
-                $filledData['password']
+                $filledData['email']
             );
         }
         else if (is_numeric($userId))
