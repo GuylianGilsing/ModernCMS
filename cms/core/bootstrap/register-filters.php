@@ -11,6 +11,7 @@ register_filter('mcms_get_twig_template_folder_paths');
 register_filter('mcms_get_migrations');
 register_filter('mcms_extend_cms_main_header_right_side');
 register_filter('mcms_ui_main_sidebar_items');
+register_filter('mcms_backend_info_popups');
 
 register_filter_callback('mcms_get_twig_template_folder_paths', function(array $paths)
 {

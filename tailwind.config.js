@@ -12,6 +12,7 @@ module.exports = {
             colors: {
                 'primary': '#00A8FF',
                 'primary-hover': '#3FBFFF',
+                'gray-info-popup': '#333',
             }
         },
     },

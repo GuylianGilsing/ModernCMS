@@ -1,5 +1,20 @@
 {% extends "/layouts/cms.twig" %}
 
+{% block javascript_head %}
+<script src="/assets/core/js/image-popups.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () =>
+{
+    const infoPopups = new InfoPopups('#main-info-popups');
+
+    if (infoPopups.canDisplayOnePopup())
+    {
+        infoPopups.displayOnePopup();
+    }
+});
+</script>
+{% endblock %}
+
 {% block body %}
 <header id="main-header" class="z-50">
     <div class="wrapper w-screen px-6 bg-white">
@@ -17,7 +32,7 @@
         </div>
     </div>
 </header>
-<main id="main-content" class=" flex flex-row flex-nowrap flex-grow overflow-hidden bg-gray-100 z-0">
+<main id="main-content" class="flex flex-row flex-nowrap flex-grow overflow-hidden bg-gray-100 z-0">
     <aside id="main-sidebar" class="w-fit text-white">
         <div class="wrapper w-[18rem] h-[100%] py-6 flex-grow-0 bg-gray-800">
             {{ mcms_ui_main_sidenav_items() }}
@@ -30,4 +45,5 @@
         <img src="{{ site_url('/assets/core/img/logos/logo-gray_cutout.svg') }}" alt="">
     </div>
 </main>
+{{ mcms_backend_info_popups() }}
 {% endblock %}

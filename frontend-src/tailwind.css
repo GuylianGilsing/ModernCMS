@@ -136,6 +136,36 @@
         @apply transition-opacity;
         @apply hover:opacity-30;
     }
+
+    .icon-wrapper{
+        width: 1em;
+        height: 1em;
+        @apply relative;
+        @apply block;
+    }
+
+    .icon-close{
+        @apply cursor-pointer;
+    }
+
+    .icon-close::before,
+    .icon-close::after{
+        content: '';
+        width: 1em;
+        height: 17.5%;
+        top: 50%;
+        left: 0;
+        @apply absolute;
+        @apply bg-white;
+    }
+
+    .icon-close::before {
+        transform:  translateY(-50%) rotate(45deg);
+    }
+
+    .icon-close::after{
+        transform:  translateY(-50%) rotate(-45deg);
+    }
 }
 
 .dropdown{
@@ -183,4 +213,29 @@
     @apply py-1;
     @apply px-4;
     @apply block;
+}
+
+.info-popup-slide-in-from-bottom{
+    animation-name: AnimInfoPopupSlideInFromBottom;
+    animation-duration: 250ms;
+    animation-delay: 250ms;
+    animation-fill-mode: both;
+    animation-play-state: paused;
+    animation-iteration-count: 1;
+}
+
+.run-anim{
+    animation-play-state: running;
+}
+
+@keyframes AnimInfoPopupSlideInFromBottom {
+    0%{
+        @apply bottom-4;
+        transform: translateY(calc(100% + 1em));
+    }
+
+    100%{
+        @apply bottom-4;
+        transform: translateY(0%);
+    }
 }

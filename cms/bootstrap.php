@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ModernCMS;
 
-use function ModernCMS\Core\APIs\Assets\get_assets_store;
 use function ModernCMS\Core\APIs\Hooks\Actions\dispatch_action;
 use function ModernCMS\Core\APIs\Logging\create_logging_directory_if_not_exists;
 use function ModernCMS\Core\APIs\Modules\load_registered_modules;

@@ -18,6 +18,7 @@
             "./cms/core/apis/database.php",
             "./cms/core/apis/cookies.php",
             "./cms/core/apis/hooks.php",
+            "./cms/core/apis/info_popups.php",
             "./cms/core/apis/logging.php",
             "./cms/core/apis/mapping.php",
             "./cms/core/apis/migrations.php",

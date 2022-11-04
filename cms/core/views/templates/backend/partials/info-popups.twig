@@ -1,0 +1,8 @@
+<div id="main-info-popups" class="w-full h-full top-0 left-0 fixed pointer-events-none overflow-hidden">
+    {% for message in messages %}
+        <div class="max-w-2xl ml-[18rem] py-4 px-6 pr-8 left-4 bottom-4 absolute pointer-events-auto cursor-pointer text-white bg-gray-info-popup info-popup-slide-in-from-bottom">
+            <div class="w-full h-full top-0 left-0 absolute z-0" data-popup-action="close"></div>
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
+</div>

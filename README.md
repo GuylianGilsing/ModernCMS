@@ -45,7 +45,7 @@ The table below displays all extra functions, filters, and global variables that
 | Function | mcms_ui_cms_main_header_right_side_content | | Injects registered content in the right side of the main header. | {{ mcms_ui_cms_main_header_right_side_content() }} |
 | Function | mcms_ui_main_sidenav_items | | Injects registered content into the main sidenav, | {{ mcms_ui_main_sidenav_items() }}
 | Function | table_pagination | `ModernCMS\Core\Abstractions\Pagination\\PpaginatedResult` $page | Injects a pagination element that can be used with tables into the template. | {{ table_pagination(YOUR_PAGINATED_RESULT_VAR_HERE) }} |
-
+| Function | mcms_backend_info_popups | | Displays info popups | {{ mcms_backend_info_popups() }} |
 # Frontend dev
 ```bash
 $ npx tailwindcss -i ./frontend-src/tailwind.css -o ./public/assets/core/css/main.css --watch

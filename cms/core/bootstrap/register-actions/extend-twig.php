@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace ModernCMS\Core\Bootstrap;
 
 use ModernCMS\Core\Abstractions\Pagination\PaginatedResult;
-use ModernCMS\Core\Abstractions\UI\Sidebar\SidebarSection;
 use Twig\Environment;
 
 use function ModernCMS\Core\APIs\Application\get_dependency_container_instance;
 use function ModernCMS\Core\APIs\Hooks\Actions\register_action_callback;
 use function ModernCMS\Core\APIs\Hooks\Filters\dispatch_filter;
+use function ModernCMS\Core\APIs\InfoPopups\clear_info_popups;
+use function ModernCMS\Core\APIs\InfoPopups\render_info_popups;
 use function ModernCMS\Core\Helpers\HTTP\http_protocol_and_host_name;
 
 register_action_callback('mcms_extend_twig_environment', function (Environment $twig)
@@ -66,6 +67,15 @@ register_action_callback('mcms_extend_twig_environment', function (Environment $
     $twig->addFunction(new \Twig\TwigFunction('table_pagination', function (PaginatedResult $page) use($twig): string
     {
         return $twig->render('/backend/partials/table-pagination.twig', ['page' => $page]);
+    },
+    ['is_safe' => ['html']]));
+
+    $twig->addFunction(new \Twig\TwigFunction('mcms_backend_info_popups', function (): string
+    {
+        $renderedInfoPopups = render_info_popups();
+        clear_info_popups();
+
+        return $renderedInfoPopups;
     },
     ['is_safe' => ['html']]));
 });
