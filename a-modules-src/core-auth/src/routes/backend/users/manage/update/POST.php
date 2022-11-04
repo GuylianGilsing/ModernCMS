@@ -64,12 +64,12 @@ final class POST
 
         if (!update_user($user))
         {
-            register_info_popup('No data has been updated');
+            register_info_popup('No data has been updated', 5000);
 
             return redirect_response("/cms/users/{$user->getId()}");
         }
 
-        register_info_popup('User updated successfully');
+        register_info_popup('User updated successfully', 5000);
 
         return redirect_response("/cms/users/{$user->getId()}");
     }

@@ -54,7 +54,7 @@ final class POST
             return form_error_response('/cms/users/new', ['global' => 'User could not be created'], $formFields);
         }
 
-        register_info_popup('User created successfully');
+        register_info_popup('User created successfully', 5000);
 
         return redirect_response("/cms/users/{$user->getId()}");
     }
