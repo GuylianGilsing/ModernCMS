@@ -14,8 +14,9 @@ use function ModernCMS\Core\APIs\Views\get_twig_environment_instance;
  * Registers an info popup that will be displayed inside the backend layout.
  *
  * @param string $message The message that you want to display inside the info popup.
+ * @param int $timeoutInMiliseconds The amount of time the info popup will be displayed before it closes by itself.
  */
-function register_info_popup(string $message): void
+function register_info_popup(string $message, int $timeoutInMiliseconds = 0): void
 {
     $registeredInfoPopups = [];
 
@@ -29,7 +30,10 @@ function register_info_popup(string $message): void
         }
     }
 
-    $registeredInfoPopups[] = $message;
+    $registeredInfoPopups[] = [
+        'content' => $message,
+        'timeout' => $timeoutInMiliseconds,
+    ];
 
     set_session_data('mcms_backend_info_popups', $registeredInfoPopups);
 }

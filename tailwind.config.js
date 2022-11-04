@@ -13,6 +13,7 @@ module.exports = {
                 'primary': '#00A8FF',
                 'primary-hover': '#3FBFFF',
                 'gray-info-popup': '#333',
+                'gray-info-popup-light': '#888',
             }
         },
     },

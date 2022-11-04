@@ -224,6 +224,13 @@
     animation-iteration-count: 1;
 }
 
+.info-popup-progress-bar-animation{
+    animation-name: AnimProgressBarLeftToRight;
+    animation-fill-mode: both;
+    animation-play-state: paused;
+    animation-iteration-count: 1;
+}
+
 .run-anim{
     animation-play-state: running;
 }
@@ -237,5 +244,15 @@
     100%{
         @apply bottom-4;
         transform: translateY(0%);
+    }
+}
+
+@keyframes AnimProgressBarLeftToRight {
+    from {
+        width: 0%;
+    }
+
+    to {
+        width: 100%;
     }
 }
