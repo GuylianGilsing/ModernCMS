@@ -8,6 +8,7 @@ use PHPValidation\ValidatorInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use function ModernCMS\Core\APIs\InfoPopups\register_info_popup;
 use function ModernCMS\Core\APIs\Passwords\hash_password;
 use function ModernCMS\Core\APIs\Validation\array_validator;
 use function ModernCMS\Core\APIs\Validation\convert_error_messages_into_frontend_format;
@@ -63,8 +64,12 @@ final class POST
 
         if (!update_user($user))
         {
-            return $this->errorResponse(['global' => 'User could not be updated'], $formFields);
+            register_info_popup('No data has been updated');
+
+            return redirect_response("/cms/users/{$user->getId()}");
         }
+
+        register_info_popup('User updated successfully');
 
         return redirect_response("/cms/users/{$user->getId()}");
     }

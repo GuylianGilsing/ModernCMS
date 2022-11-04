@@ -9,6 +9,7 @@ use PHPValidation\ValidatorInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use function ModernCMS\Core\APIs\InfoPopups\register_info_popup;
 use function ModernCMS\Core\APIs\Passwords\hash_password;
 use function ModernCMS\Core\APIs\Validation\array_validator;
 use function ModernCMS\Core\APIs\Validation\convert_error_messages_into_frontend_format;
@@ -52,6 +53,8 @@ final class POST
         {
             return form_error_response('/cms/users/new', ['global' => 'User could not be created'], $formFields);
         }
+
+        register_info_popup('User created successfully');
 
         return redirect_response("/cms/users/{$user->getId()}");
     }

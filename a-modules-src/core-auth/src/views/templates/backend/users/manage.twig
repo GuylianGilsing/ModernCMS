@@ -45,7 +45,11 @@
                 {% if validation_errors.password %}
                     <label for="manage-user-password" class="input-field__label input-field__label--error">{{ validation_errors.password }}</label>
                 {% else %}
-                    <label for="manage-user-password" class="input-field__label">Update password</label>
+                    {% if user.id > 0 %}
+                        <label for="manage-user-password" class="input-field__label">Update password</label>
+                    {% else %}
+                        <label for="manage-user-password" class="input-field__label">Password</label>
+                    {% endif %}
                 {% endif %}
                 <input type="password" name="password" id="manage-user-password" class="input-field__field">
             </div>
