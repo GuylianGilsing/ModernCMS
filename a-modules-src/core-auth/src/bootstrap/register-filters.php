@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace ModernCMS\Module\CoreAuth\Bootstrap;
 
+use ModernCMS\Module\CoreAuth\Abstractions\Authorization\BackendPermissions;
+use ModernCMS\Module\CoreAuth\Abstractions\Authorization\UserPermissions;
+use ModernCMS\Module\CoreAuth\Abstractions\Authorization\UserRoles;
 use ModernCMS\Module\CoreAuth\Migrations\BlackListedAUTHTokensMigration;
 use ModernCMS\Module\CoreAuth\Migrations\UserPermissionsTableMigration;
 use ModernCMS\Module\CoreAuth\Migrations\UsersTableMigration;
@@ -17,7 +20,7 @@ register_filter('mcms_auth_get_user_roles');
 
 register_filter_callback('mcms_auth_get_user_roles', function (array $roles): array
 {
-    $roles['administrator'] = 'Administrator';
+    $roles[UserRoles::ADMINISTRATOR->value] = 'Administrator';
 
     return $roles;
 });
@@ -26,16 +29,16 @@ register_filter('mcms_auth_get_user_permissions');
 
 register_filter_callback('mcms_auth_get_user_permissions', function (array $permissions): array
 {
-    $permissions['visit_backend'] = 'Can visit backend';
+    $permissions[BackendPermissions::VISIT_BACKEND->value] = 'Can visit backend';
 
-    $permissions['view_all_users'] = 'Can see all registered users';
-    $permissions['edit_administrators'] = 'Can edit administrator accounts';
-    $permissions['trash_administrators'] = 'Can put administrator accounts in the trash';
-    $permissions['delete_administrators'] = 'Can delete administrator accounts';
+    $permissions[UserPermissions::VIEW_ALL_USERS->value] = 'Can see all registered users';
+    $permissions[UserPermissions::EDIT_USER_INFO->value] = 'Can edit user information';
+    $permissions[UserPermissions::EDIT_ADMINISTRATORS->value] = 'Can edit administrator accounts';
+    $permissions[UserPermissions::TRASH_ADMINISTRATORS->value] = 'Can put administrator accounts in the trash';
+    $permissions[UserPermissions::DELETE_ADMINISTRATORS->value] = 'Can delete administrator accounts';
 
     return $permissions;
 });
-
 
 register_filter_callback('mcms_get_twig_template_folder_paths', function (array $paths)
 {

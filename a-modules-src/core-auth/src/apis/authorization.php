@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace ModernCMS\Module\CoreAuth\APIs\Authorization;
 
 use ErrorException;
+use ModernCMS\Module\CoreAuth\Abstractions\Authorization\RolePermissionStoreInterface;
 use ModernCMS\Module\CoreAuth\Abstractions\Users\User;
+use ModernCMS\Module\CoreAuth\Stores\Authorization\RolePermissionStore;
 
 use function ModernCMS\Core\APIs\Database\get_database_connection_instance;
 use function ModernCMS\Core\APIs\Hooks\Filters\dispatch_filter;
@@ -43,6 +45,34 @@ function get_registered_permissions(): array
     }
 
     return $permissions;
+}
+
+function get_role_permissions_store(): RolePermissionStoreInterface
+{
+    static $store;
+
+    if (!isset($store))
+    {
+        $store = new RolePermissionStore();
+    }
+
+    return $store;
+}
+
+/**
+ * @param array<string> $permissions
+ */
+function set_role_permissions(string $role, array $permissions): void
+{
+    get_role_permissions_store()->setPermissionsForRole($role, $permissions);
+}
+
+/**
+ * @return array<string>
+ */
+function get_role_permissions(string $role): array
+{
+    return get_role_permissions_store()->getPermissionsFromRole($role);
 }
 
 /**

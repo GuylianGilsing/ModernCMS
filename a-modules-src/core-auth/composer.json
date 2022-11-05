@@ -11,6 +11,7 @@
         "psr-4": {
             "ModernCMS\\Module\\CoreAuth\\": "./src",
             "ModernCMS\\Module\\CoreAuth\\Abstractions\\": "./src/abstractions",
+            "ModernCMS\\Module\\CoreAuth\\Abstractions\\Authorization\\": "./src/abstractions/authorization",
             "ModernCMS\\Module\\CoreAuth\\Abstractions\\Users\\": "./src/abstractions/users",
             "ModernCMS\\Module\\CoreAuth\\Mappings\\": "./src/mappings",
             "ModernCMS\\Module\\CoreAuth\\Mappings\\Array\\": "./src/mappings/array",
@@ -24,7 +25,9 @@
             "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\Manage\\": "./src/routes/backend/users/manage",
             "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\Manage\\Create\\": "./src/routes/backend/users/manage/create",
             "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\Manage\\Update\\": "./src/routes/backend/users/manage/update",
-            "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\Overview\\": "./src/routes/backend/users/overview"
+            "ModernCMS\\Module\\CoreAuth\\Routes\\Backend\\Users\\Overview\\": "./src/routes/backend/users/overview",
+            "ModernCMS\\Module\\CoreAuth\\Stores\\": "./src/stores",
+            "ModernCMS\\Module\\CoreAuth\\Stores\\Authorization\\": "./src/stores/authorization"
         }
     },
     "require": {
