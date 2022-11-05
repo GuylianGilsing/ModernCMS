@@ -38,12 +38,21 @@ final class GET
                 $id = intval($filledData['id']);
             }
 
+            $permissions = [];
+
+            if (array_key_exists('permissions', $filledData))
+            {
+                $permissions = array_keys($filledData['permissions']);
+            }
+
             $templateData['user'] = new User(
                 $id,
                 $filledData['firstname'],
                 [],
                 $filledData['lastname'],
-                $filledData['email']
+                $filledData['email'],
+                role: $filledData['role'],
+                permissions: $permissions
             );
         }
         else if (is_numeric($userId))
