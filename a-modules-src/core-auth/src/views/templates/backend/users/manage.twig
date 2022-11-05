@@ -14,47 +14,92 @@
                 <p class="font-bold text-red-500">{{ validation_errors.global }}</p>
             </div>
         {% endif %}
-        <div class="w-full mb-4 flex flex-row justify-evenly items-center gap-8">
-            <div class="input-field">
-                {% if validation_errors.firstname %}
-                    <label for="manage-user-firstname" class="input-field__label input-field__label--error">{{ validation_errors.firstname }}</label>
-                {% else %}
-                    <label for="manage-user-firstname" class="input-field__label">Firstname</label>
-                {% endif %}
-                <input type="text" name="firstname" value="{{ user.firstname }}" id="manage-user-firstname" class="input-field__field">
+        <div class="w-full flex flex-col justify-evenly gap-8">
+            <div class="w-full p-4 bg-white">
+                <div class="px-2 pb-2 text-lg font-bold">User information</div>
+                <div class="w-full mb-4 px-2 flex flex-row justify-evenly items-center gap-8">
+                    <div class="input-field">
+                        {% if validation_errors.firstname %}
+                            <label for="manage-user-firstname" class="input-field__label input-field__label--error">{{ validation_errors.firstname }}</label>
+                        {% else %}
+                            <label for="manage-user-firstname" class="input-field__label">Firstname</label>
+                        {% endif %}
+                        <input type="text" name="firstname" value="{{ user.firstname }}" id="manage-user-firstname" class="input-field__field">
+                    </div>
+                    <div class="input-field">
+                        {% if validation_errors.lastname %}
+                            <label for="manage-user-lastname" class="input-field__label input-field__label--error">{{ validation_errors.lastname }}</label>
+                        {% else %}
+                            <label for="manage-user-lastname" class="input-field__label">Lastname</label>
+                        {% endif %}
+                        <input type="text" name="lastname" value="{{ user.lastname }}" id="manage-user-lastname" class="input-field__field">
+                    </div>
+                </div>
+                <div class="w-full mb-2 px-2 flex flex-row justify-evenly items-center gap-8">
+                    <div class="input-field">
+                        {% if validation_errors.email %}
+                            <label for="manage-user-email" class="input-field__label input-field__label--error">{{ validation_errors.email }}</label>
+                        {% else %}
+                            <label for="manage-user-email" class="input-field__label">Email address</label>
+                        {% endif %}
+                        <input type="email" name="email" value="{{ user.email }}" id="manage-user-email" class="input-field__field">
+                    </div>
+                    <div class="input-field">
+                        {% if validation_errors.password %}
+                            <label for="manage-user-password" class="input-field__label input-field__label--error">{{ validation_errors.password }}</label>
+                        {% else %}
+                            {% if user.id > 0 %}
+                                <label for="manage-user-password" class="input-field__label">Update password</label>
+                            {% else %}
+                                <label for="manage-user-password" class="input-field__label">Password</label>
+                            {% endif %}
+                        {% endif %}
+                        <input type="password" name="password" id="manage-user-password" class="input-field__field">
+                    </div>
+                </div>
             </div>
-            <div class="input-field">
-                {% if validation_errors.lastname %}
-                    <label for="manage-user-lastname" class="input-field__label input-field__label--error">{{ validation_errors.lastname }}</label>
-                {% else %}
-                    <label for="manage-user-lastname" class="input-field__label">Lastname</label>
-                {% endif %}
-                <input type="text" name="lastname" value="{{ user.lastname }}" id="manage-user-lastname" class="input-field__field">
-            </div>
-        </div>
-        <div class="w-full mb-6 flex flex-row justify-evenly items-center gap-8">
-            <div class="input-field">
-                {% if validation_errors.email %}
-                    <label for="manage-user-email" class="input-field__label input-field__label--error">{{ validation_errors.email }}</label>
-                {% else %}
-                    <label for="manage-user-email" class="input-field__label">Email address</label>
-                {% endif %}
-                <input type="email" name="email" value="{{ user.email }}" id="manage-user-email" class="input-field__field">
-            </div>
-            <div class="input-field">
-                {% if validation_errors.password %}
-                    <label for="manage-user-password" class="input-field__label input-field__label--error">{{ validation_errors.password }}</label>
-                {% else %}
-                    {% if user.id > 0 %}
-                        <label for="manage-user-password" class="input-field__label">Update password</label>
+            <div class="w-full p-4 bg-white">
+                <div class="px-2 pb-2 text-lg font-bold">Roles & permissions</div>
+                <div class="px-2">
+                    <div class="input-field mb-4">
+                        {% if validation_errors.role %}
+                            <label for="manage-user-role" class="input-field__label input-field__label--error">{{ validation_errors.role }}</label>
+                        {% else %}
+                            <label for="manage-user-role" class="input-field__label">Role</label>
+                        {% endif %}
+                        <select name="role" id="manage-user-role" class="input-field__field">
+                            {% for role_key, role_label in roles %}
+                                {% if user.role == role_key %}
+                                    <option value="{{ role_key }}" selected>{{ role_label }}</option>
+                                {% else %}
+                                    <option value="{{ role_key }}">{{ role_label }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% if validation_errors.permissions %}
+                        <div class="input-field__label input-field__label--error mb-2">{{ validation_errors.permissions }}</div>
                     {% else %}
-                        <label for="manage-user-password" class="input-field__label">Password</label>
+                        <div class="input-field__label mb-2">Permissions</div>
                     {% endif %}
-                {% endif %}
-                <input type="password" name="password" id="manage-user-password" class="input-field__field">
+                    <div class="pb-2 grid-cols-1 grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        {% for permission_key, permission_label in permissions %}
+                            <div class="input-field input-field--checkbox">
+                                {% if user.hasPermission(permission_key) %}
+                                    <input type="checkbox" name="permissions[{{ permission_key }}]" checked id="user-permission-{{ permission_key }}" class="input-field__field">
+                                {% else %}
+                                    <input type="checkbox" name="permissions[{{ permission_key }}]" id="user-permission-{{ permission_key }}" class="input-field__field">
+                                {% endif %}
+                                <label for="user-permission-{{ permission_key }}" class="input-field__label">
+                                   <span class="input-field__label-text">{{ permission_label }}</span>
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="w-full">
+        <div class="w-full mt-6">
             {% if user.id > 0 %}
                 <input type="submit" name="submit" value="Update user" class="button-primary">
             {% else %}

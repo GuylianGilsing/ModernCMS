@@ -4,6 +4,7 @@
             "./src/apis/authentication/blacklist_tokens.php",
             "./src/apis/authentication/jwt.php",
             "./src/apis/authentication.php",
+            "./src/apis/authorization.php",
             "./src/apis/users.php",
             "./register-module.php"
         ],

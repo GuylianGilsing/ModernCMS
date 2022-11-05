@@ -27,6 +27,12 @@ final class ToUserTypeMapping implements FromArrayMappingInterface
         $user->setLastName($source['lastname']);
         $user->setEmail($source['email']);
         $user->setPassword($source['password']);
+        $user->setRole($source['role']);
+
+        if (array_key_exists('permissions', $source))
+        {
+            $user->setPermissions($source['permissions']);
+        }
 
         return $user;
     }

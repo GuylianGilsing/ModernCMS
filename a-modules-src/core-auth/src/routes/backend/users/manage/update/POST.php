@@ -14,9 +14,12 @@ use function ModernCMS\Core\APIs\Validation\array_validator;
 use function ModernCMS\Core\APIs\Validation\convert_error_messages_into_frontend_format;
 use function ModernCMS\Core\Helpers\HTTP\form_error_response;
 use function ModernCMS\Core\Helpers\HTTP\redirect_response;
+use function ModernCMS\Module\CoreAuth\APIs\Authorization\get_registered_permissions;
+use function ModernCMS\Module\CoreAuth\APIs\Authorization\get_registered_roles;
 use function ModernCMS\Module\CoreAuth\APIs\Users\get_user_by_id;
 use function ModernCMS\Module\CoreAuth\APIs\Users\update_user;
 use function PHPValidation\Functions\email;
+use function PHPValidation\Functions\in;
 use function PHPValidation\Functions\isInt;
 use function PHPValidation\Functions\isNumeric;
 use function PHPValidation\Functions\maxLength;
@@ -38,6 +41,11 @@ final class POST
             unset($formFields['password']);
         }
 
+        if (array_key_exists('permissions', $formFields))
+        {
+            $formFields['permissions'] = array_keys($formFields['permissions']);
+        }
+
         if (!$validator->isValid($formFields))
         {
             return $this->errorResponse($validator->getErrorMessages(), $formFields);
@@ -55,6 +63,7 @@ final class POST
         $user->setMiddlenames([]);
         $user->setLastName($formFields['lastname']);
         $user->setEmail($formFields['email']);
+        $user->setRole($formFields['role']);
 
         if (array_key_exists('password', $formFields))
         {
@@ -62,6 +71,12 @@ final class POST
             $user->setPassword($hash);
         }
 
+        if (array_key_exists('permissions', $formFields))
+        {
+            $user->setPermissions($formFields['permissions']);
+        }
+
+        // Update user
         if (!update_user($user))
         {
             register_info_popup('No data has been updated', 5000);
@@ -76,12 +91,17 @@ final class POST
 
     private function getCreateUserPOSTDataValidator(): ValidatorInterface
     {
+        $validRoles = array_keys(get_registered_roles());
+        $validPermissions = array_keys(get_registered_permissions());
+
         $validators = [
             'id' => [required(), isNumeric(), isInt()],
             'firstname' => [required(), notEmpty(), maxLength(32)],
             'lastname' => [required(), notEmpty(), maxLength(32)],
             'email' => [required(), notEmpty(), email()],
             'password' => [notEmpty(), maxLength(256)],
+            'role' => [required(), in($validRoles)],
+            'permissions' => [in($validPermissions)],
         ];
 
         $errorMessages = [
@@ -108,6 +128,13 @@ final class POST
             'password' => [
                 'notEmpty' => "Enter a password",
                 'maxLength' => "Password cannot be longer than 256 characters",
+            ],
+            'roles' => [
+                'required' => 'Select a role',
+                'in' => 'Invalid role selected',
+            ],
+            'permissions' => [
+                'in' => 'Invalid permission(s) selected',
             ],
         ];
 

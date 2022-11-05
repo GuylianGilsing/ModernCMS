@@ -15,8 +15,11 @@ use function ModernCMS\Core\APIs\Validation\array_validator;
 use function ModernCMS\Core\APIs\Validation\convert_error_messages_into_frontend_format;
 use function ModernCMS\Core\Helpers\HTTP\form_error_response;
 use function ModernCMS\Core\Helpers\HTTP\redirect_response;
+use function ModernCMS\Module\CoreAuth\APIs\Authorization\get_registered_permissions;
+use function ModernCMS\Module\CoreAuth\APIs\Authorization\get_registered_roles;
 use function ModernCMS\Module\CoreAuth\APIs\Users\create_user;
 use function PHPValidation\Functions\email;
+use function PHPValidation\Functions\in;
 use function PHPValidation\Functions\maxLength;
 use function PHPValidation\Functions\notEmpty;
 use function PHPValidation\Functions\required;
@@ -45,8 +48,20 @@ final class POST
             $formFields['lastname'],
             $formFields['email'],
             hash_password($formFields['password']),
+            $formFields['role']
         );
 
+        // Add permissions to user
+        $permissions = [];
+
+        if (array_key_exists('permissions', $formFields))
+        {
+            $permissions = array_keys($formFields['permissions']);
+        }
+
+        $user->setPermissions($permissions);
+
+        // Create user
         $user = create_user($user);
 
         if ($user === null)
@@ -61,11 +76,16 @@ final class POST
 
     private function getCreateUserPOSTDataValidator(): ValidatorInterface
     {
+        $validRoles = array_keys(get_registered_roles());
+        $validPermissions = array_keys(get_registered_permissions());
+
         $validators = [
             'firstname' => [required(), notEmpty(), maxLength(32)],
             'lastname' => [required(), notEmpty(), maxLength(32)],
             'email' => [required(), notEmpty(), email()],
             'password' => [required(), notEmpty(), maxLength(256)],
+            'role' => [required(), in($validRoles)],
+            'permissions' => [in($validPermissions)],
         ];
 
         $errorMessages = [
@@ -88,6 +108,13 @@ final class POST
                 'required' => "Enter a password",
                 'notEmpty' => "Enter a password",
                 'maxLength' => "Password cannot be longer than 256 characters",
+            ],
+            'roles' => [
+                'required' => 'Select a role',
+                'in' => 'Invalid role selected',
+            ],
+            'permissions' => [
+                'in' => 'Invalid permission(s) selected'
             ],
         ];
 

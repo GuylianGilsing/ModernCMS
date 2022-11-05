@@ -16,9 +16,16 @@ class User
     protected string $lastname;
     protected string $email;
     protected string $password;
+    protected string $role;
+
+    /**
+     * @var array<string> $permissions
+     */
+    protected array $permissions;
 
     /**
      * @param array<string> $middlenames
+     * @param array<string> $permissions
      */
     public function __construct(
         int $id,
@@ -26,7 +33,9 @@ class User
         array $middlenames = [],
         string $lastname = '',
         string $email = '',
-        string $password = ''
+        string $password = '',
+        string $role = '',
+        array $permissions = []
     ) {
         $this->id = $id;
         $this->firstname = $firstname;
@@ -34,6 +43,8 @@ class User
         $this->lastname = $lastname;
         $this->email = $email;
         $this->password = $password;
+        $this->role = $role;
+        $this->permissions = $permissions;
     }
 
     public function getId(): int
@@ -101,5 +112,52 @@ class User
     public function setPassword(string $hash): void
     {
         $this->password = $hash;
+    }
+
+    public function getRole(): string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): void
+    {
+        $this->role = $role;
+    }
+
+    public function hasPermission(string $permission): bool
+    {
+        return in_array($permission, $this->permissions);
+    }
+
+    /**
+     * @param array<string> $permissions
+     */
+    public function hasPermissions(array $permissions): bool
+    {
+        foreach ($permissions as $permission)
+        {
+            if (!$this->hasPermission($permission))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getPermissions(): array
+    {
+        return $this->permissions;
+    }
+
+    /**
+     * @param array<string> $permissions
+     */
+    public function setPermissions(array $permissions): void
+    {
+        $this->permissions = $permissions;
     }
 }

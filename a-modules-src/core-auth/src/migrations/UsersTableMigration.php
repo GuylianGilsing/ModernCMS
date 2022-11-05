@@ -14,7 +14,7 @@ final class UsersTableMigration implements MigrationInterface
     {
         if (!$schema->hasTable('users'))
         {
-            $table = $schema->createTable('users');
+            $schema->createTable('users');
         }
 
         $table = $schema->getTable('users');
@@ -57,6 +57,13 @@ final class UsersTableMigration implements MigrationInterface
         if (!$table->hasColumn('password'))
         {
             $column = $table->addColumn('password', Types::TEXT);
+        }
+
+        if (!$table->hasColumn('role'))
+        {
+            $column = $table->addColumn('role', Types::STRING);
+
+            $column->setLength(100);
         }
     }
 

@@ -80,7 +80,7 @@
         @apply relative;
         @apply flex;
         flex-direction: row; /* Using "@apply flex-row" here will add the selector into the :not(.flex-row) selector on the #main-content element  */
-        @apply items-center;
+        @apply items-start;
         @apply cursor-pointer;
     }
 
@@ -97,7 +97,9 @@
     .input-field--checkbox .input-field__label::before{
         content: '';
         width: 1.15em;
+        min-width: 1.15em;
         height: 1.15em;
+        min-height: 1.15em;
         @apply inline-block;
         @apply border;
         @apply border-gray-300;
@@ -105,7 +107,7 @@
     }
 
     .input-field__label-text{
-        @apply ml-4;
+        @apply ml-3;
     }
 
     .input-field--checkbox .input-field__field:checked + .input-field__label::after{

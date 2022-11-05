@@ -11,6 +11,8 @@ use function ModernCMS\Core\APIs\Sessions\delete_session_if_exists;
 use function ModernCMS\Core\APIs\Sessions\get_session_data;
 use function ModernCMS\Core\APIs\Sessions\session_exists;
 use function ModernCMS\Core\APIs\Views\view_response;
+use function ModernCMS\Module\CoreAuth\APIs\Authorization\get_registered_permissions;
+use function ModernCMS\Module\CoreAuth\APIs\Authorization\get_registered_roles;
 use function ModernCMS\Module\CoreAuth\APIs\Users\get_user_by_id;
 
 final class GET
@@ -19,6 +21,8 @@ final class GET
     {
         $templateData = [
             'user' => null,
+            'roles' => get_registered_roles(),
+            'permissions' => get_registered_permissions(),
         ];
 
         if (session_exists('validation_errors') && session_exists('filled_data'))
