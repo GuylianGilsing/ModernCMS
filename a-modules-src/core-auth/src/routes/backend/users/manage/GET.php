@@ -58,7 +58,7 @@ final class GET
 
             if (array_key_exists('permissions', $filledData))
             {
-                $permissions = array_keys($filledData['permissions']);
+                $permissions = array_values($filledData['permissions']);
             }
 
             $templateData['user'] = new User(
@@ -77,7 +77,7 @@ final class GET
         }
 
         if (
-            $templateData['user']->getRole() === UserRoles::ADMINISTRATOR->value &&
+            $loggedInUser->getRole() === UserRoles::ADMINISTRATOR->value &&
             !$loggedInUser->hasPermission(UserPermissions::EDIT_ADMINISTRATORS->value))
         {
             return redirect_response('/cms/users');

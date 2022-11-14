@@ -56,7 +56,7 @@ final class POST
 
         if (array_key_exists('permissions', $formFields))
         {
-            $permissions = array_keys($formFields['permissions']);
+            $permissions = array_values($formFields['permissions']);
         }
 
         $user->setPermissions($permissions);

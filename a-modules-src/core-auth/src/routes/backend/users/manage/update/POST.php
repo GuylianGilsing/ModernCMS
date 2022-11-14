@@ -34,7 +34,7 @@ final class POST
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         $formFields = $request->getParsedBody();
-        $validator = $this->getCreateUserPOSTDataValidator();
+        $validator = $this->getUpdateUserPOSTDataValidator();
 
         if (array_key_exists('password', $formFields) && strlen($formFields['password']) === 0)
         {
@@ -89,7 +89,7 @@ final class POST
         return redirect_response("/cms/users/{$user->getId()}");
     }
 
-    private function getCreateUserPOSTDataValidator(): ValidatorInterface
+    private function getUpdateUserPOSTDataValidator(): ValidatorInterface
     {
         $validRoles = array_keys(get_registered_roles());
         $validPermissions = array_keys(get_registered_permissions());
